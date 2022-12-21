@@ -211,5 +211,8 @@ def global_to_local(global_position, global_home):
 
 * Filled in backyard_flyer.py
 
+## Submission Details
 
+Key to completing and understanding this project are the two functions `state_callback()` and `local_position_callback()`. `state_callback` is used to transition the drone from disarmed and manual control into armed and guided control, and then when the trajectory is completed transition it back. `local_position_callback` is used to monitor the postion state of the drone and provide it with the next flight objective.
 
+`state_callback` is pretty straight forward. Starting from the default state of `in_mission` is `True` when the drone is constructed, the `start()` method does some initial connection work. `state_callback` detects the manual and disarmed state and transitions it to armed and guided, then when those are detected runs the takeoff transition. `local_position_callback` then checks the flight state to see if we're in takeoff or waypoint state and then runs the corresponding transition if the drone is within a certain threshold of the target position. Storing the waypoints as a list and popping off the zeroth element to set as the target made the waypoint transition much easier. Secondly, note that `cmd_target_position` takes a north-east-up position and that `local_position` is a north-east-down frame (altitude is negative).
